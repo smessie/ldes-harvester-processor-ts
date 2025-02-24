@@ -1,6 +1,6 @@
 # ldes-harvester-processor-ts
 
-[![Build and tests with Node.js](https://github.com/rdf-connect/template-processor-ts/actions/workflows/build-test.yml/badge.svg)](https://github.com/rdf-connect/template-processor-ts/actions/workflows/build-test.yml)
+[![Build and tests with Node.js](https://github.com/smessie/ldes-harvester-processor-ts/actions/workflows/build-test.yml/badge.svg)](https://github.com/smessie/ldes-harvester-processor-ts/actions/workflows/build-test.yml) [![npm](https://img.shields.io/npm/v/ldes-harvester-processor-ts.svg?style=popout)](https://npmjs.com/package/ldes-harvester-processor-ts)
 
 This repository contains an [RDF-Connect](https://github.com/rdf-connect) processor to partially harvest an LDES with
 some additional options to the ldes-client.
@@ -16,6 +16,7 @@ At the time of writing, this repositories sets up the following boilerplate and 
 - `end`: The end date of the harvesting interval.
 - `interval`: The number of milliseconds in each interval. Default is 3_600_000ms (1 hour).
 - `membersPerInterval`: The number of members to harvest per interval. Default is 100.
+- `urlIsView`: Whether the URL is a view or not. Default is false.
 
 ## Installation
 

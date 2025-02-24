@@ -1,0 +1,222 @@
+@prefix ldes: <https://w3id.org/ldes#> .
+@prefix tree: <https://w3id.org/tree#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://example.org/> .
+@prefix : <http://localhost:3000/> .
+
+<mock-ldes.ttl> a ldes:EventStream ;
+    ldes:timestampPath ex:modified ;
+    ldes:versionOfPath ex:isVersionOf ;
+    tree:shape [
+        a sh:NodeShape ;
+        sh:targetClass ex:Clazz1 ;
+        sh:property [
+            a sh:PropertyShape ;
+            sh:path ex:modified ;
+            sh:datatype xsd:dateTime
+        ], [
+            a sh:PropertyShape ;
+            sh:path ex:prop1 ;
+            sh:node [
+                a sh:NodeShape ;
+                sh:targetClass ex:Clazz2
+            ]
+        ]
+    ] ;
+    tree:view <mock-ldes-0.ttl> ;
+    tree:member <mem21#0>, <mem22#0>, <mem23#0>, <mem24#0>, <mem25#0>, <mem26#0>, <mem27#0>, <mem28#0>, <mem29#0>, <mem30#0>,
+                <mem31#0>, <mem32#0>, <mem33#0>, <mem34#0>, <mem35#0>, <mem36#0>, <mem37#0>, <mem38#0>, <mem39#0>, <mem40#0> .
+
+<mock-ldes-1.ttl> a tree:Node ;
+    tree:relation [
+        a tree:LessThanRelation ;
+        tree:node <mock-ldes-0.ttl> ;
+        tree:path ex:modified ;
+        tree:value "2025-04-01T10:00:00.000Z"^^xsd:dateTime
+    ], [
+        a tree:GreaterThanOrEqualToRelation ;
+        tree:node <mock-ldes-2.ttl> ;
+        tree:path ex:modified ;
+        tree:value "2025-04-01T11:00:00.000Z"^^xsd:dateTime
+    ] .
+
+<mem21#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem21> ;
+    ex:prop1 <submem21> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:00:00.000Z"^^xsd:dateTime .
+
+<submem21> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem22#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem22> ;
+    ex:prop1 <submem22> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:01:00.000Z"^^xsd:dateTime .
+
+<submem22> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem23#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem23> ;
+    ex:prop1 <submem23> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:02:00.000Z"^^xsd:dateTime .
+
+<submem23> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem24#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem24> ;
+    ex:prop1 <submem24> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:03:00.000Z"^^xsd:dateTime .
+
+<submem24> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem25#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem25> ;
+    ex:prop1 <submem25> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:04:00.000Z"^^xsd:dateTime .
+
+<submem25> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem26#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem26> ;
+    ex:prop1 <submem26> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:05:00.000Z"^^xsd:dateTime .
+
+<submem26> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem27#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem27> ;
+    ex:prop1 <submem27> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:06:00.000Z"^^xsd:dateTime .
+
+<submem27> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem28#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem28> ;
+    ex:prop1 <submem28> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:07:00.000Z"^^xsd:dateTime .
+
+<submem28> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem29#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem29> ;
+    ex:prop1 <submem29> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:08:00.000Z"^^xsd:dateTime .
+
+<submem29> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem30#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem30> ;
+    ex:prop1 <submem30> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:09:00.000Z"^^xsd:dateTime .
+
+<submem30> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem31#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem31> ;
+    ex:prop1 <submem31> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:10:00.000Z"^^xsd:dateTime .
+
+<submem31> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem32#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem32> ;
+    ex:prop1 <submem32> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:11:00.000Z"^^xsd:dateTime .
+
+<submem32> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem33#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem33> ;
+    ex:prop1 <submem33> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:12:00.000Z"^^xsd:dateTime .
+
+<submem33> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem34#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem34> ;
+    ex:prop1 <submem34> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:13:00.000Z"^^xsd:dateTime .
+
+<submem34> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem35#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem35> ;
+    ex:prop1 <submem35> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:14:00.000Z"^^xsd:dateTime .
+
+<submem35> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem36#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem36> ;
+    ex:prop1 <submem36> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:15:00.000Z"^^xsd:dateTime .
+
+<submem36> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem37#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem37> ;
+    ex:prop1 <submem37> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:16:00.000Z"^^xsd:dateTime .
+
+<submem37> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem38#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem38> ;
+    ex:prop1 <submem38> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:17:00.000Z"^^xsd:dateTime .
+
+<submem38> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem39#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem39> ;
+    ex:prop1 <submem39> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:18:00.000Z"^^xsd:dateTime .
+
+<submem39> a ex:Clazz2 ;
+    ex:subprop "sub-value" .
+
+<mem40#0> a ex:Clazz1 ;
+    ex:isVersionOf <mem40> ;
+    ex:prop1 <submem40> ;
+    ex:prop2 "value" ;
+    ex:modified "2025-04-01T10:19:00.000Z"^^xsd:dateTime .
+
+<submem40> a ex:Clazz2 ;
+    ex:subprop "sub-value" .

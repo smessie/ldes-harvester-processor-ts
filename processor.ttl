@@ -5,35 +5,75 @@
 @prefix : <https://w3id.org/conn#>.
 @prefix sh: <http://www.w3.org/ns/shacl#>.
 
-js:Log a js:JsProcess;
-    js:file <./lib/index.js>;
-    js:function "log";
-    js:location <./>;
-    js:mapping [
-        a fno:Mapping;
-        fno:parameterMapping [
-            a fnom:PositionParameterMapping;
-            fnom:functionParameter "incoming";
-            fnom:implementationParameterPosition "0"^^xsd:int;
-        ], [
-            a fnom:PositionParameterMapping;
-            fnom:functionParameter "outgoing";
-            fnom:implementationParameterPosition "1"^^xsd:int;
-        ];
-    ].
+js:LdesHarvester a js:JsProcess;
+                 js:file <./lib/index.js>;
+                 js:function "harvest";
+                 js:location <./>;
+                 js:mapping [
+                       a fno:Mapping;
+                       fno:parameterMapping [
+                             a fnom:PositionParameterMapping;
+                             fnom:functionParameter "outgoing";
+                             fnom:implementationParameterPosition "0"^^xsd:int;
+                         ], [
+                             a fnom:PositionParameterMapping;
+                             fnom:functionParameter "LDES Url";
+                             fnom:implementationParameterPosition "1"^^xsd:int;
+                         ], [
+                             a fnom:PositionParameterMapping;
+                             fnom:functionParameter "start";
+                             fnom:implementationParameterPosition "2"^^xsd:int;
+                         ], [
+                             a fnom:PositionParameterMapping;
+                             fnom:functionParameter "end";
+                             fnom:implementationParameterPosition "3"^^xsd:int;
+                         ], [
+                             a fnom:PositionParameterMapping;
+                             fnom:functionParameter "interval";
+                             fnom:implementationParameterPosition "4"^^xsd:int;
+                         ], [
+                             a fnom:PositionParameterMapping;
+                             fnom:functionParameter "amountPerInterval";
+                             fnom:implementationParameterPosition "5"^^xsd:int;
+                         ];
+                   ].
 
 [ ] a sh:NodeShape;
-    sh:targetClass js:Log;
+    sh:targetClass js:LdesHarvester;
     sh:property [
-        sh:class :ReaderChannel;
-        sh:path js:incoming;
-        sh:name "incoming";
-        sh:maxCount 1;
-        sh:minCount 1;
-    ], [
-        sh:class :WriterChannel;
-        sh:path js:outgoing;
-        sh:name "outgoing";
-        sh:maxCount 1;
-        sh:minCount 1;
-    ].
+          sh:class :WriterChannel;
+          sh:path js:outgoing;
+          sh:name "outgoing";
+          sh:maxCount 1;
+          sh:minCount 1;
+      ], [
+          sh:datatype xsd:string;
+          sh:path js:url;
+          sh:name "LDES Url";
+          sh:maxCount 1;
+          sh:minCount 1;
+      ], [
+          sh:datatype xsd:dateTime;
+          sh:path js:start;
+          sh:name "start";
+          sh:minCount 1;
+          sh:maxCount 1;
+      ], [
+          sh:datatype xsd:dateTime;
+          sh:path js:end;
+          sh:name "end";
+          sh:minCount 1;
+          sh:maxCount 1;
+      ], [
+          sh:datatype xsd:integer;
+          sh:path js:interval;
+          sh:name "interval";
+          sh:minCount 0;
+          sh:maxCount 1;
+      ], [
+          sh:datatype xsd:integer;
+          sh:path js:amountPerInterval;
+          sh:name "amountPerInterval";
+          sh:minCount 0;
+          sh:maxCount 1;
+      ].

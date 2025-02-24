@@ -1,46 +1,114 @@
-import { log } from "../src";
+import { harvest } from "../src";
 import { SimpleStream } from "@rdfc/js-runner";
-import { expect, describe, test, vi } from "vitest";
+import { afterAll, beforeAll, describe, expect, test } from "vitest";
+import { fastify, FastifyInstance } from "fastify";
+import { fastifyStatic } from "@fastify/static";
+import { SDS } from "@treecg/types";
+import * as path from "node:path";
 
-describe("log", () => {
-    test("successful", async () => {
-        const consoleLog = vi.spyOn(console, "log");
-        expect.assertions(7);
+describe("harvest", () => {
+    const LDES = "http://localhost:3000/mock-ldes.ttl";
 
-        const incoming = new SimpleStream<string>();
-        const outgoing = new SimpleStream<string>();
+    let server: FastifyInstance;
 
-        // We expect each one of the messages to have been logged.
-        outgoing.on("end", () => {
-            const calls = consoleLog.mock.calls;
-            expect(calls).toHaveLength(3);
-            expect(calls[0][0]).toBe("Hello, World!");
-            expect(calls[1][0]).toBe("This is a second message");
-            expect(calls[2][0]).toBe("Goodbye.");
-        });
+    beforeAll(async () => {
+        // Setup mock http server
+        try {
+            server = fastify();
+            server.register(fastifyStatic, {
+                root: path.join(__dirname, "./data/mock-ldes"),
+            });
 
-        let index = 0;
-        outgoing.on("data", (data) => {
-            if (index == 0) {
-                expect(data).toBe("Hello, World!");
-            } else if (index == 1) {
-                expect(data).toBe("This is a second message");
-            } else {
-                expect(data).toBe("Goodbye.");
-            }
-            index += 1;
+            await server.listen({ port: 3000 });
+            console.log(
+                `Mock server listening on ${server.addresses()[0].port}`,
+            );
+        } catch (err) {
+            server.log.error(err);
+            process.exit(1);
+        }
+    });
+
+    afterAll(async () => {
+        await server.close();
+    });
+
+    test("harvesting 10 members per interval gives 30 members in total", async () => {
+        const outputStream = new SimpleStream<string>();
+
+        let count = 0;
+        outputStream.data((record) => {
+            // Check SDS metadata is present
+            expect(record.indexOf(SDS.stream)).toBeGreaterThan(0);
+            expect(record.indexOf(SDS.payload)).toBeGreaterThan(0);
+            count++;
         });
 
         // Initialize the processor.
-        const startLogging = log(incoming, outgoing);
-        await startLogging();
+        const startHarvesting = harvest(
+            outputStream,
+            LDES,
+            new Date("2025-04-01T00:00:00Z"),
+            new Date("2025-04-02T00:00:00Z"),
+            3600000,
+            10,
+        );
+        await startHarvesting();
 
-        // Push all messages into the pipeline.
-        await incoming.push("Hello, World!");
-        await incoming.push("This is a second message");
-        await incoming.push("Goodbye.");
+        // Expect all members
+        expect(count).toBe(30);
+    });
 
-        await incoming.end();
-        consoleLog.mockRestore();
+    test("harvesting 30 members per interval gives all 60 members in total", async () => {
+        const outputStream = new SimpleStream<string>();
+
+        let count = 0;
+        outputStream.data((record) => {
+            // Check SDS metadata is present
+            expect(record.indexOf(SDS.stream)).toBeGreaterThan(0);
+            expect(record.indexOf(SDS.payload)).toBeGreaterThan(0);
+            count++;
+        });
+
+        // Initialize the processor.
+        const startHarvesting = harvest(
+            outputStream,
+            LDES,
+            new Date("2025-04-01T00:00:00Z"),
+            new Date("2025-04-02T00:00:00Z"),
+            3600000,
+            30,
+        );
+        await startHarvesting();
+
+        // Expect all members
+        expect(count).toBe(60);
+    });
+
+    test("harvesting 1 member per interval gives 3 members each at minute 00", async () => {
+        const outputStream = new SimpleStream<string>();
+
+        let count = 0;
+        outputStream.data((record) => {
+            // Check SDS metadata is present
+            expect(record.indexOf(SDS.stream)).toBeGreaterThan(0);
+            expect(record.indexOf(SDS.payload)).toBeGreaterThan(0);
+            expect(record.indexOf(":00.000Z")).toBeGreaterThan(0);
+            count++;
+        });
+
+        // Initialize the processor.
+        const startHarvesting = harvest(
+            outputStream,
+            LDES,
+            new Date("2025-04-01T00:00:00Z"),
+            new Date("2025-04-02T00:00:00Z"),
+            3600000,
+            1,
+        );
+        await startHarvesting();
+
+        // Expect all members
+        expect(count).toBe(3);
     });
 });

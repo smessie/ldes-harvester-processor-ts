@@ -52,6 +52,7 @@ describe("harvest", () => {
             new Date("2025-04-02T00:00:00Z"),
             3600000,
             10,
+            false,
         );
         await startHarvesting();
 
@@ -78,6 +79,7 @@ describe("harvest", () => {
             new Date("2025-04-02T00:00:00Z"),
             3600000,
             30,
+            false,
         );
         await startHarvesting();
 
@@ -105,6 +107,7 @@ describe("harvest", () => {
             new Date("2025-04-02T00:00:00Z"),
             3600000,
             1,
+            false,
         );
         await startHarvesting();
 

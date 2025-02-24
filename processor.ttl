@@ -35,6 +35,10 @@ js:LdesHarvester a js:JsProcess;
                              a fnom:PositionParameterMapping;
                              fnom:functionParameter "amountPerInterval";
                              fnom:implementationParameterPosition "5"^^xsd:int;
+                         ], [
+                             a fnom:PositionParameterMapping;
+                             fnom:functionParameter "urlIsView";
+                             fnom:implementationParameterPosition "6"^^xsd:int;
                          ];
                    ].
 
@@ -74,6 +78,12 @@ js:LdesHarvester a js:JsProcess;
           sh:datatype xsd:integer;
           sh:path js:amountPerInterval;
           sh:name "amountPerInterval";
+          sh:minCount 0;
+          sh:maxCount 1;
+      ], [
+          sh:datatype xsd:boolean;
+          sh:path js:urlIsView;
+          sh:name "urlIsView";
           sh:minCount 0;
           sh:maxCount 1;
       ].

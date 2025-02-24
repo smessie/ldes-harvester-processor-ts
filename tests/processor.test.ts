@@ -1,4 +1,4 @@
-import { expect, test, describe } from "vitest";
+import { describe, expect, test } from "vitest";
 import { extractProcessors, extractSteps, Source } from "@rdfc/js-runner";
 
 const pipeline = `
@@ -19,12 +19,13 @@ const pipeline = `
             js:start "2025-01-01T00:00:00Z"^^xsd:dateTime;
             js:end "2025-01-02T00:00:00Z"^^xsd:dateTime;
             js:interval 3600000;
-            js:amountPerInterval 100.
+            js:amountPerInterval 100;
+            js:urlIsView false.
     `;
 
 describe("processor", () => {
     test("definition", async () => {
-        expect.assertions(9);
+        expect.assertions(10);
 
         const source: Source = {
             value: pipeline,
@@ -47,9 +48,11 @@ describe("processor", () => {
 
         const args = extractSteps(env, quads, config);
         expect(args.length).toBe(1);
-        expect(args[0].length).toBe(6);
+        expect(args[0].length).toBe(7);
 
-        const [[outgoing, url, start, end, interval, amountPerInterval]] = args;
+        const [
+            [outgoing, url, start, end, interval, amountPerInterval, urlIsView],
+        ] = args;
         expect(outgoing.ty.value).toBe(
             "https://w3id.org/conn/js#JsWriterChannel",
         );
@@ -58,5 +61,6 @@ describe("processor", () => {
         expect(end).toStrictEqual(new Date("2025-01-02T00:00:00Z"));
         expect(interval).toBe(3600000);
         expect(amountPerInterval).toBe(100);
+        expect(urlIsView).toBe(false);
     });
 });

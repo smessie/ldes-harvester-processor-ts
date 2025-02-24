@@ -15,6 +15,7 @@ export function harvest(
     end: Date,
     interval: number = 3_600_000,
     amountPerInterval: number = 100,
+    urlIsView: boolean = false,
 ): () => Promise<void> {
     logger.info(
         `Harvesting from ${start.toISOString()} to ${end.toISOString()} with interval ${interval} and ${amountPerInterval} per interval`,
@@ -45,6 +46,7 @@ export function harvest(
                 defaultTimezone: "Z",
                 after: new Date(date.getTime() - 1),
                 before: new Date(date.getTime() + interval),
+                urlIsView: urlIsView,
             });
 
             let count = 0;

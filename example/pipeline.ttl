@@ -1,39 +1,36 @@
+@prefix rdfc: <https://w3id.org/rdf-connect#>.
 @prefix js: <https://w3id.org/conn/js#>.
 @prefix : <https://w3id.org/conn#>.
 @prefix owl: <http://www.w3.org/2002/07/owl#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
-<> owl:imports <./node_modules/@rdfc/js-runner/ontology.ttl>.
-<> owl:imports <./node_modules/@rdfc/js-runner/channels/file.ttl>.
+### Import runners and processors
+<> owl:imports <./node_modules/@rdfc/js-runner/index.ttl>.
+
 <> owl:imports <../node_modules/@rdfc/log-processor-ts/processor.ttl>.
 <> owl:imports <../processor.ttl>.
 
-#########################################
-# Channel definitions
-#########################################
+### Define the channels
+<output> a rdfc:Reader, rdfc:Writer.
 
-# Channel for js:LdesClient → js:Log
-<ldes/reader> a js:JsReaderChannel.
-<ldes/writer> a js:JsWriterChannel.
-[ ] a js:JsChannel;
-    :reader <ldes/reader>;
-    :writer <ldes/writer>.
+### Define the pipeline
+<> a rdfc:Pipeline;
+   rdfc:consistsOf [
+       rdfc:instantiates rdfc:NodeRunner;
+       rdfc:processor <harvester>, <logger>;
+   ].
 
+### Define the processors
+<harvester> a rdfc:LdesHarvester;
+    rdfc:writer <output>;
+    rdfc:url "https://www.pieter.pm/dcat/sweden/feed.ttl";
+    rdfc:start "2026-02-01T00:00:00Z"^^xsd:dateTime;
+    rdfc:end "2026-02-02T00:00:00Z"^^xsd:dateTime;
+    rdfc:interval 3600000;
+    rdfc:amountPerInterval 100;
+    rdfc:urlIsView "false"^^xsd:boolean.
 
-#########################################
-# Processor definitions
-#########################################
-
-# Processor to read member events from a LDES
-[ ] a js:LdesHarvester;
-    js:outgoing <ldes/writer>;
-    js:url "https://telraam-api.net/ldes/observations/by-time";
-    js:start "2024-03-01T00:00:00Z"^^xsd:dateTime;
-    js:end "2024-03-02T00:00:00Z"^^xsd:dateTime;
-    js:interval 3600000;
-    js:amountPerInterval 100.
-
-[ ] a js:Log;
-    js:incoming <ldes/reader>;
-    js:level "info";
-    js:label "output".
+<logger> a rdfc:LogProcessorJs;
+    rdfc:reader <output>;
+    rdfc:level "info";
+    rdfc:label "output".

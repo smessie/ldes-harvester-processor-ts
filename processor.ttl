@@ -1,3 +1,5 @@
+@prefix rdfc: <https://w3id.org/rdf-connect#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix js: <https://w3id.org/conn/js#>.
 @prefix fno: <https://w3id.org/function/ontology#>.
 @prefix fnom: <https://w3id.org/function/vocabulary/mapping#>.
@@ -5,85 +7,55 @@
 @prefix : <https://w3id.org/conn#>.
 @prefix sh: <http://www.w3.org/ns/shacl#>.
 
-js:LdesHarvester a js:JsProcess;
-                 js:file <./lib/index.js>;
-                 js:function "harvest";
-                 js:location <./>;
-                 js:mapping [
-                       a fno:Mapping;
-                       fno:parameterMapping [
-                             a fnom:PositionParameterMapping;
-                             fnom:functionParameter "outgoing";
-                             fnom:implementationParameterPosition "0"^^xsd:int;
-                         ], [
-                             a fnom:PositionParameterMapping;
-                             fnom:functionParameter "LDES Url";
-                             fnom:implementationParameterPosition "1"^^xsd:int;
-                         ], [
-                             a fnom:PositionParameterMapping;
-                             fnom:functionParameter "start";
-                             fnom:implementationParameterPosition "2"^^xsd:int;
-                         ], [
-                             a fnom:PositionParameterMapping;
-                             fnom:functionParameter "end";
-                             fnom:implementationParameterPosition "3"^^xsd:int;
-                         ], [
-                             a fnom:PositionParameterMapping;
-                             fnom:functionParameter "interval";
-                             fnom:implementationParameterPosition "4"^^xsd:int;
-                         ], [
-                             a fnom:PositionParameterMapping;
-                             fnom:functionParameter "amountPerInterval";
-                             fnom:implementationParameterPosition "5"^^xsd:int;
-                         ], [
-                             a fnom:PositionParameterMapping;
-                             fnom:functionParameter "urlIsView";
-                             fnom:implementationParameterPosition "6"^^xsd:int;
-                         ];
-                   ].
+rdfc:LdesHarvester rdfc:jsImplementationOf rdfc:Processor;
+    rdfs:label "LDES Harvester";
+    rdfs:comment "Processor that can harvest a specific subset of data from a Linked Data Event Stream (LDES).";
+    rdfc:file <./lib/index.js>;
+    rdfc:class "LdesHarvester";
+    rdfc:entrypoint <./>.
 
 [ ] a sh:NodeShape;
-    sh:targetClass js:LdesHarvester;
+    sh:targetClass rdfc:LdesHarvester;
     sh:property [
-          sh:class :WriterChannel;
-          sh:path js:outgoing;
-          sh:name "outgoing";
-          sh:maxCount 1;
-          sh:minCount 1;
-      ], [
-          sh:datatype xsd:string;
-          sh:path js:url;
-          sh:name "LDES Url";
-          sh:maxCount 1;
-          sh:minCount 1;
-      ], [
-          sh:datatype xsd:dateTime;
-          sh:path js:start;
-          sh:name "start";
-          sh:minCount 1;
-          sh:maxCount 1;
-      ], [
-          sh:datatype xsd:dateTime;
-          sh:path js:end;
-          sh:name "end";
-          sh:minCount 1;
-          sh:maxCount 1;
-      ], [
-          sh:datatype xsd:integer;
-          sh:path js:interval;
-          sh:name "interval";
-          sh:minCount 0;
-          sh:maxCount 1;
-      ], [
-          sh:datatype xsd:integer;
-          sh:path js:amountPerInterval;
-          sh:name "amountPerInterval";
-          sh:minCount 0;
-          sh:maxCount 1;
-      ], [
-          sh:datatype xsd:boolean;
-          sh:path js:urlIsView;
-          sh:name "urlIsView";
-          sh:minCount 0;
-          sh:maxCount 1;
-      ].
+        sh:class rdfc:Writer;
+        sh:path rdfc:writer;
+        sh:name "writer";
+        sh:maxCount 1;
+        sh:minCount 1;
+    ], [
+        sh:datatype xsd:string;
+        sh:path rdfc:url;
+        sh:name "url";
+        sh:maxCount 1;
+        sh:minCount 1;
+    ], [
+        sh:datatype xsd:dateTime;
+        sh:path rdfc:start;
+        sh:name "start";
+        sh:minCount 1;
+        sh:maxCount 1;
+    ], [
+        sh:datatype xsd:dateTime;
+        sh:path rdfc:end;
+        sh:name "end";
+        sh:minCount 1;
+        sh:maxCount 1;
+    ], [
+        sh:datatype xsd:integer;
+        sh:path rdfc:interval;
+        sh:name "interval";
+        sh:minCount 0;
+        sh:maxCount 1;
+    ], [
+        sh:datatype xsd:integer;
+        sh:path rdfc:amountPerInterval;
+        sh:name "amountPerInterval";
+        sh:minCount 0;
+        sh:maxCount 1;
+    ], [
+        sh:datatype xsd:boolean;
+        sh:path rdfc:urlIsView;
+        sh:name "urlIsView";
+        sh:minCount 0;
+        sh:maxCount 1;
+    ].

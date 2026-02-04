@@ -1,0 +1,18 @@
+{
+    "name": "example",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "npx rdfc pipeline.ttl"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "ldes-harvester-processor-ts": "file:..",
+        "@rdfc/js-runner": "^3.0.2",
+        "@rdfc/log-processor-ts": "^2.0.3",
+        "@rdfc/orchestrator-js": "^2.0.1"
+    },
+    "description": ""
+}

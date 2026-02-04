@@ -1,52 +1,50 @@
-import { Writer } from "@rdfc/js-runner";
-import { getLoggerFor } from "./utils/logUtil";
+import { Processor, Writer } from "@rdfc/js-runner";
 import { DataFactory } from "rdf-data-factory";
 import { enhanced_fetch, replicateLDES } from "ldes-client";
 import { SDS } from "@treecg/types";
 import { Quad_Object, Writer as NWriter } from "n3";
 
-const logger = getLoggerFor("LdesHarvester");
 const df = new DataFactory();
 
-export function harvest(
-    outgoing: Writer<string>,
-    url: string,
-    start: Date,
-    end: Date,
-    interval: number = 3_600_000,
-    amountPerInterval: number = 100,
-    urlIsView: boolean = false,
-): () => Promise<void> {
-    logger.info(
-        `Harvesting from ${start.toISOString()} to ${end.toISOString()} with interval ${interval} and ${amountPerInterval} per interval`,
-    );
+export type LdesHarvesterArgs = {
+    writer: Writer;
+    url: string;
+    start: Date;
+    end: Date;
+    interval?: number;
+    amountPerInterval?: number;
+    urlIsView?: boolean;
+};
+export class LdesHarvester extends Processor<LdesHarvesterArgs> {
+    async init(this: LdesHarvesterArgs & this): Promise<void> {
+        this.interval = this.interval ?? 3_600_000;
+        this.amountPerInterval = this.amountPerInterval ?? 100;
+        this.urlIsView = this.urlIsView ?? false;
 
-    /**************************************************************************
-     * Any code that must be executed after the pipeline goes online must be  *
-     * embedded in the returned function. This guarantees that all channels   *
-     * are initialized and the other processors are available. A common use   *
-     * case is the source processor, which introduces data into the pipeline  *
-     * from an external source such as the file system or an HTTP API, since  *
-     * these must be certain that the downstream processors are ready and     *
-     * awaiting data.                                                         *
-     *                                                                        *
-     * Note that this entirely optional, and you may return void instead.     *
-     **************************************************************************/
-    return async () => {
-        logger.debug("Harvesting data");
+        this.logger.info(
+            `Harvesting from ${this.start.toISOString()} to ${this.end.toISOString()} with interval ${this.interval} and ${this.amountPerInterval} per interval.`,
+        );
+    }
 
-        let date = new Date(start);
-        while (date < end) {
+    async transform(this: LdesHarvesterArgs & this): Promise<void> {
+        // Nothing.
+    }
+
+    async produce(this: LdesHarvesterArgs & this): Promise<void> {
+        this.logger.debug("Harvesting data");
+
+        let date = new Date(this.start);
+        while (date < this.end) {
             const ldesClient = replicateLDES({
-                url: url,
+                url: this.url,
                 polling: false,
                 fetch: enhanced_fetch({
                     safe: true,
                 }),
                 defaultTimezone: "Z",
                 after: new Date(date.getTime() - 1),
-                before: new Date(date.getTime() + interval),
-                urlIsView: urlIsView,
+                before: new Date(date.getTime() + this.interval!),
+                urlIsView: this.urlIsView,
             });
 
             let count = 0;
@@ -69,18 +67,20 @@ export function harvest(
                         ),
                     );
 
-                    await outgoing.push(new NWriter().quadsToString(quads));
+                    await this.writer.string(
+                        new NWriter().quadsToString(quads),
+                    );
                 }
 
-                if (count >= amountPerInterval) {
-                    logger.debug(
-                        `Harvested ${count} elements for ${date.toISOString()} to ${new Date(date.getTime() + interval).toISOString()} with IDs like ${element.id?.value}`,
+                if (count >= this.amountPerInterval!) {
+                    this.logger.debug(
+                        `Harvested ${count} elements for ${date.toISOString()} to ${new Date(date.getTime() + this.interval!).toISOString()} with IDs like ${element.id?.value}`,
                     );
                     break;
                 }
             }
 
-            date = new Date(date.getTime() + interval);
+            date = new Date(date.getTime() + this.interval!);
         }
-    };
+    }
 }

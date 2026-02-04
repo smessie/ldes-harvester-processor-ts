@@ -1,6 +1,6 @@
 {
     "name": "ldes-harvester-processor-ts",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "RDF-Connect processor to harvest an LDES with some additional options to the ldes-client.",
     "type": "module",
     "main": "lib/index.js",

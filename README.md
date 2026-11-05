@@ -8,7 +8,7 @@ It allows for the harvesting of a specific number of members per interval, rangi
 
 ## Usage
 
-To use the `rdfc:LdesHarvester` in your RDF-Connect pipeline, you need to have a pipeline configuration that includes the
+To use the `rdfcp:LdesHarvester` in your RDF-Connect pipeline, you need to have a pipeline configuration that includes the
 [rdfc:NodeRunner](https://github.com/rdf-connect/js-runner) (check out their documentation to find out how to install and configure it).
 
 ### Installation
@@ -28,6 +28,7 @@ Next, you can add the processor to your pipeline configuration as follows:
 
 ```turtle
 @prefix rdfc: <https://w3id.org/rdf-connect#>.
+@prefix rdfcp: <https://w3id.org/rdf-connect/processors#>.
 @prefix owl:  <http://www.w3.org/2002/07/owl#>.
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#>.
 
@@ -41,29 +42,29 @@ Next, you can add the processor to your pipeline configuration as follows:
 # Add the `rdfc:processor <harvester>` statement under the `rdfc:consistsOf` statement of the `rdfc:NodeRunner`
 
 ### Define and configure the processor
-<harvester> a rdfc:LdesHarvester;
-    rdfc:writer <out>;
-    rdfc:url "https://example.org/ldes";
-    rdfc:start "2024-01-01T00:00:00Z"^^xsd:dateTime;
-    rdfc:end   "2024-01-02T00:00:00Z"^^xsd:dateTime;
-    rdfc:interval 3600000;
-    rdfc:amountPerInterval 100;
-    rdfc:urlIsView false.
+<harvester> a rdfcp:LdesHarvester;
+    rdfcp:writer <out>;
+    rdfcp:url "https://example.org/ldes";
+    rdfcp:start "2024-01-01T00:00:00Z"^^xsd:dateTime;
+    rdfcp:end   "2024-01-02T00:00:00Z"^^xsd:dateTime;
+    rdfcp:interval 3600000;
+    rdfcp:amountPerInterval 100;
+    rdfcp:urlIsView false.
 ```
 
 ### Configuration
 
-Parameters of `rdfc:LdesHarvester`:
+Parameters of `rdfcp:LdesHarvester`:
 
-- `rdfc:writer`: The channel to which harvested LDES members will be written.
-- `rdfc:url`: The URL of the LDES (or LDES view) to harvest from.
-- `rdfc:start`: The start date-time of the harvesting window (xsd:dateTime).
-- `rdfc:end`: The end date-time of the harvesting window (xsd:dateTime).
-- `rdfc:interval`: The size of each harvesting interval in milliseconds.  
+- `rdfcp:writer`: The channel to which harvested LDES members will be written.
+- `rdfcp:url`: The URL of the LDES (or LDES view) to harvest from.
+- `rdfcp:start`: The start date-time of the harvesting window (xsd:dateTime).
+- `rdfcp:end`: The end date-time of the harvesting window (xsd:dateTime).
+- `rdfcp:interval`: The size of each harvesting interval in milliseconds.  
   Defaults to `3600000` (1 hour).
-- `rdfc:amountPerInterval`: The maximum number of members harvested per interval.  
+- `rdfcp:amountPerInterval`: The maximum number of members harvested per interval.  
   Defaults to `100`.
-- `rdfc:urlIsView`: Indicates whether the provided URL is an LDES view.  
+- `rdfcp:urlIsView`: Indicates whether the provided URL is an LDES view.  
   Defaults to `false`.
 
 The harvesting process splits the time range between `start` and `end` into intervals and retrieves a limited number

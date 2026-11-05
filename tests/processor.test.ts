@@ -6,16 +6,17 @@ import { resolve } from "path";
 
 const pipeline = `
         @prefix rdfc: <https://w3id.org/rdf-connect#>.
+        @prefix rdfcp: <https://w3id.org/rdf-connect/processors#>.
         @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
-        <http://example.org/harvester> a rdfc:LdesHarvester;
-            rdfc:writer <writer>;
-            rdfc:url "https://example.org/ldes";
-            rdfc:start "2025-01-01T00:00:00Z"^^xsd:dateTime;
-            rdfc:end "2025-01-02T00:00:00Z"^^xsd:dateTime;
-            rdfc:interval 3600000;
-            rdfc:amountPerInterval 100;
-            rdfc:urlIsView false.
+        <http://example.org/harvester> a rdfcp:LdesHarvester;
+            rdfcp:writer <writer>;
+            rdfcp:url "https://example.org/ldes";
+            rdfcp:start "2025-01-01T00:00:00Z"^^xsd:dateTime;
+            rdfcp:end "2025-01-02T00:00:00Z"^^xsd:dateTime;
+            rdfcp:interval 3600000;
+            rdfcp:amountPerInterval 100;
+            rdfcp:urlIsView false.
     `;
 
 describe("processor", () => {
@@ -53,13 +54,14 @@ describe("processor", () => {
             resolve("./pipeline.ttl"),
             `
         @prefix rdfc: <https://w3id.org/rdf-connect#>.
+        @prefix rdfcp: <https://w3id.org/rdf-connect/processors#>.
         @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
-        <http://example.org/harvester> a rdfc:LdesHarvester;
-            rdfc:writer <writer>;
-            rdfc:url "https://example.org/ldes";
-            rdfc:start "2025-01-01T00:00:00Z"^^xsd:dateTime;
-            rdfc:end "2025-01-02T00:00:00Z"^^xsd:dateTime.
+        <http://example.org/harvester> a rdfcp:LdesHarvester;
+            rdfcp:writer <writer>;
+            rdfcp:url "https://example.org/ldes";
+            rdfcp:start "2025-01-01T00:00:00Z"^^xsd:dateTime;
+            rdfcp:end "2025-01-02T00:00:00Z"^^xsd:dateTime.
     `,
         );
         helper.getConfig("LdesHarvester");
@@ -80,13 +82,14 @@ describe("processor", () => {
             resolve("./pipeline.ttl"),
             `
         @prefix rdfc: <https://w3id.org/rdf-connect#>.
+        @prefix rdfcp: <https://w3id.org/rdf-connect/processors#>.
         @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
-        <http://example.org/harvester> a rdfc:LdesHarvester;
-            rdfc:writer <writer>;
-            rdfc:url <https://example.org/ldes>;
-            rdfc:start "2025-01-01T00:00:00Z"^^xsd:dateTime;
-            rdfc:end "2025-01-02T00:00:00Z"^^xsd:dateTime.
+        <http://example.org/harvester> a rdfcp:LdesHarvester;
+            rdfcp:writer <writer>;
+            rdfcp:url <https://example.org/ldes>;
+            rdfcp:start "2025-01-01T00:00:00Z"^^xsd:dateTime;
+            rdfcp:end "2025-01-02T00:00:00Z"^^xsd:dateTime.
     `,
         );
         helper.getConfig("LdesHarvester");

@@ -10,9 +10,9 @@
     "license": "MIT",
     "dependencies": {
         "ldes-harvester-processor-ts": "file:..",
-        "@rdfc/js-runner": "^3.0.2",
+        "@rdfc/js-runner": "^3.4.2",
         "@rdfc/log-processor-ts": "^2.0.3",
-        "@rdfc/orchestrator-js": "^2.0.1"
+        "@rdfc/orchestrator-js": "^2.3.0"
     },
     "description": ""
 }

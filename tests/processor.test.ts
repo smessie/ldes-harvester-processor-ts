@@ -6,16 +6,17 @@ import { resolve } from "path";
 
 const pipeline = `
         @prefix rdfc: <https://w3id.org/rdf-connect#>.
+        @prefix rdfcp: <https://w3id.org/rdf-connect/processors#>.
         @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
-        <http://example.org/harvester> a rdfc:LdesHarvester;
-            rdfc:writer <writer>;
-            rdfc:url "https://example.org/ldes";
-            rdfc:start "2025-01-01T00:00:00Z"^^xsd:dateTime;
-            rdfc:end "2025-01-02T00:00:00Z"^^xsd:dateTime;
-            rdfc:interval 3600000;
-            rdfc:amountPerInterval 100;
-            rdfc:urlIsView false.
+        <http://example.org/harvester> a rdfcp:LdesHarvester;
+            rdfcp:output <writer>;
+            rdfcp:url "https://example.org/ldes";
+            rdfcp:start "2025-01-01T00:00:00Z"^^xsd:dateTime;
+            rdfcp:end "2025-01-02T00:00:00Z"^^xsd:dateTime;
+            rdfcp:interval 3600000;
+            rdfcp:amountPerInterval 100;
+            rdfcp:urlIsView false.
     `;
 
 describe("processor", () => {
@@ -44,5 +45,59 @@ describe("processor", () => {
         expect(proc.interval).toBe(3600000);
         expect(proc.amountPerInterval).toBe(100);
         expect(proc.urlIsView).toBe(false);
+    });
+    test("falls back to its default values", async () => {
+        const helper = new ProcHelper<LdesHarvester>();
+
+        await helper.importFile(resolve("./processor.ttl"));
+        await helper.importInline(
+            resolve("./pipeline.ttl"),
+            `
+        @prefix rdfc: <https://w3id.org/rdf-connect#>.
+        @prefix rdfcp: <https://w3id.org/rdf-connect/processors#>.
+        @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+        <http://example.org/harvester> a rdfcp:LdesHarvester;
+            rdfcp:output <writer>;
+            rdfcp:url "https://example.org/ldes";
+            rdfcp:start "2025-01-01T00:00:00Z"^^xsd:dateTime;
+            rdfcp:end "2025-01-02T00:00:00Z"^^xsd:dateTime.
+    `,
+        );
+        helper.getConfig("LdesHarvester");
+
+        const proc = <LdesHarvester & LdesHarvesterArgs>(
+            await helper.getProcessor("http://example.org/harvester")
+        );
+
+        expect(proc.interval).toBe(3600000);
+        expect(proc.amountPerInterval).toBe(100);
+        expect(proc.urlIsView).toBe(false);
+    });
+    test("accepts the URL written as an IRI", async () => {
+        const helper = new ProcHelper<LdesHarvester>();
+
+        await helper.importFile(resolve("./processor.ttl"));
+        await helper.importInline(
+            resolve("./pipeline.ttl"),
+            `
+        @prefix rdfc: <https://w3id.org/rdf-connect#>.
+        @prefix rdfcp: <https://w3id.org/rdf-connect/processors#>.
+        @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+        <http://example.org/harvester> a rdfcp:LdesHarvester;
+            rdfcp:output <writer>;
+            rdfcp:url <https://example.org/ldes>;
+            rdfcp:start "2025-01-01T00:00:00Z"^^xsd:dateTime;
+            rdfcp:end "2025-01-02T00:00:00Z"^^xsd:dateTime.
+    `,
+        );
+        helper.getConfig("LdesHarvester");
+
+        const proc = <LdesHarvester & LdesHarvesterArgs>(
+            await helper.getProcessor("http://example.org/harvester")
+        );
+
+        expect(proc.url).toBe("https://example.org/ldes");
     });
 });

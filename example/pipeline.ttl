@@ -1,13 +1,12 @@
 @prefix rdfc: <https://w3id.org/rdf-connect#>.
-@prefix js: <https://w3id.org/conn/js#>.
-@prefix : <https://w3id.org/conn#>.
+@prefix rdfcp: <https://w3id.org/rdf-connect/processors#>.
 @prefix owl: <http://www.w3.org/2002/07/owl#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
 ### Import runners and processors
 <> owl:imports <./node_modules/@rdfc/js-runner/index.ttl>.
 
-<> owl:imports <../node_modules/@rdfc/log-processor-ts/processor.ttl>.
+<> owl:imports <./node_modules/@rdfc/log-processor-ts/processor.ttl>.
 <> owl:imports <../processor.ttl>.
 
 ### Define the channels
@@ -21,16 +20,16 @@
    ].
 
 ### Define the processors
-<harvester> a rdfc:LdesHarvester;
-    rdfc:writer <output>;
-    rdfc:url "https://www.pieter.pm/dcat/sweden/feed.ttl";
-    rdfc:start "2026-02-01T00:00:00Z"^^xsd:dateTime;
-    rdfc:end "2026-02-02T00:00:00Z"^^xsd:dateTime;
-    rdfc:interval 3600000;
-    rdfc:amountPerInterval 100;
-    rdfc:urlIsView "false"^^xsd:boolean.
+<harvester> a rdfcp:LdesHarvester;
+    rdfcp:output <output>;
+    rdfcp:url "https://www.pieter.pm/dcat/sweden/feed.ttl";
+    rdfcp:start "2026-02-01T00:00:00Z"^^xsd:dateTime;
+    rdfcp:end "2026-02-02T00:00:00Z"^^xsd:dateTime;
+    rdfcp:interval 3600000;
+    rdfcp:amountPerInterval 100;
+    rdfcp:urlIsView "false"^^xsd:boolean.
 
-<logger> a rdfc:LogProcessorJs;
-    rdfc:reader <output>;
-    rdfc:level "info";
-    rdfc:label "output".
+<logger> a rdfcp:LogProcessorJs;
+    rdfcp:input <output>;
+    rdfcp:level "info";
+    rdfcp:label "output".

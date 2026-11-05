@@ -7,7 +7,7 @@
 ### Import runners and processors
 <> owl:imports <./node_modules/@rdfc/js-runner/index.ttl>.
 
-<> owl:imports <../node_modules/@rdfc/log-processor-ts/processor.ttl>.
+<> owl:imports <./node_modules/@rdfc/log-processor-ts/processor.ttl>.
 <> owl:imports <../processor.ttl>.
 
 ### Define the channels

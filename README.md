@@ -43,7 +43,7 @@ Next, you can add the processor to your pipeline configuration as follows:
 
 ### Define and configure the processor
 <harvester> a rdfcp:LdesHarvester;
-    rdfcp:writer <out>;
+    rdfcp:output <out>;
     rdfcp:url "https://example.org/ldes";
     rdfcp:start "2024-01-01T00:00:00Z"^^xsd:dateTime;
     rdfcp:end   "2024-01-02T00:00:00Z"^^xsd:dateTime;
@@ -56,7 +56,7 @@ Next, you can add the processor to your pipeline configuration as follows:
 
 Parameters of `rdfcp:LdesHarvester`:
 
-- `rdfcp:writer`: The channel to which harvested LDES members will be written.
+- `rdfcp:output`: The channel to which harvested LDES members will be written.
 - `rdfcp:url`: The URL of the LDES (or LDES view) to harvest from.
 - `rdfcp:start`: The start date-time of the harvesting window (xsd:dateTime).
 - `rdfcp:end`: The end date-time of the harvesting window (xsd:dateTime).

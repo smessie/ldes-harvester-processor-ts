@@ -15,7 +15,7 @@ rdfcp:LdesHarvester rdfc:jsImplementationOf rdfc:Processor;
     sh:targetClass rdfcp:LdesHarvester;
     sh:property [
         sh:class rdfc:Writer;
-        sh:path rdfcp:writer;
+        sh:path rdfcp:output;
         sh:codeIdentifier "writer";
         sh:name "Output channel";
         sh:description "Output channel to which the harvested LDES members are written.";

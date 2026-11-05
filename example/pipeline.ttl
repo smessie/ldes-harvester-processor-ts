@@ -21,7 +21,7 @@
 
 ### Define the processors
 <harvester> a rdfcp:LdesHarvester;
-    rdfcp:writer <output>;
+    rdfcp:output <output>;
     rdfcp:url "https://www.pieter.pm/dcat/sweden/feed.ttl";
     rdfcp:start "2026-02-01T00:00:00Z"^^xsd:dateTime;
     rdfcp:end "2026-02-02T00:00:00Z"^^xsd:dateTime;
@@ -30,6 +30,6 @@
     rdfcp:urlIsView "false"^^xsd:boolean.
 
 <logger> a rdfcp:LogProcessorJs;
-    rdfcp:reader <output>;
+    rdfcp:input <output>;
     rdfcp:level "info";
     rdfcp:label "output".

@@ -15,46 +15,53 @@ rdfc:LdesHarvester rdfc:jsImplementationOf rdfc:Processor;
     sh:property [
         sh:class rdfc:Writer;
         sh:path rdfc:writer;
-        sh:name "writer";
+        sh:codeIdentifier "writer";
+        sh:name "Output channel";
         sh:maxCount 1;
         sh:minCount 1;
     ], [
         sh:nodeKind sh:IRIOrLiteral;
         sh:codeType xsd:string;
         sh:path rdfc:url;
-        sh:name "url";
+        sh:codeIdentifier "url";
+        sh:name "LDES URL";
         sh:maxCount 1;
         sh:minCount 1;
     ], [
         sh:datatype xsd:dateTime;
         sh:path rdfc:start;
-        sh:name "start";
+        sh:codeIdentifier "start";
+        sh:name "Start";
         sh:minCount 1;
         sh:maxCount 1;
     ], [
         sh:datatype xsd:dateTime;
         sh:path rdfc:end;
-        sh:name "end";
+        sh:codeIdentifier "end";
+        sh:name "End";
         sh:minCount 1;
         sh:maxCount 1;
     ], [
         sh:datatype xsd:integer;
         sh:path rdfc:interval;
-        sh:name "interval";
+        sh:codeIdentifier "interval";
+        sh:name "Interval";
         sh:defaultValue 3600000;
         sh:minCount 0;
         sh:maxCount 1;
     ], [
         sh:datatype xsd:integer;
         sh:path rdfc:amountPerInterval;
-        sh:name "amountPerInterval";
+        sh:codeIdentifier "amountPerInterval";
+        sh:name "Members per interval";
         sh:defaultValue 100;
         sh:minCount 0;
         sh:maxCount 1;
     ], [
         sh:datatype xsd:boolean;
         sh:path rdfc:urlIsView;
-        sh:name "urlIsView";
+        sh:codeIdentifier "urlIsView";
+        sh:name "URL is a view";
         sh:defaultValue false;
         sh:minCount 0;
         sh:maxCount 1;

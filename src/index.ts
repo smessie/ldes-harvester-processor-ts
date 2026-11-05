@@ -11,16 +11,12 @@ export type LdesHarvesterArgs = {
     url: string;
     start: Date;
     end: Date;
-    interval?: number;
-    amountPerInterval?: number;
-    urlIsView?: boolean;
+    interval: number;
+    amountPerInterval: number;
+    urlIsView: boolean;
 };
 export class LdesHarvester extends Processor<LdesHarvesterArgs> {
     async init(this: LdesHarvesterArgs & this): Promise<void> {
-        this.interval = this.interval ?? 3_600_000;
-        this.amountPerInterval = this.amountPerInterval ?? 100;
-        this.urlIsView = this.urlIsView ?? false;
-
         this.logger.info(
             `Harvesting from ${this.start.toISOString()} to ${this.end.toISOString()} with interval ${this.interval} and ${this.amountPerInterval} per interval.`,
         );
@@ -43,7 +39,7 @@ export class LdesHarvester extends Processor<LdesHarvesterArgs> {
                 }),
                 defaultTimezone: "Z",
                 after: new Date(date.getTime() - 1),
-                before: new Date(date.getTime() + this.interval!),
+                before: new Date(date.getTime() + this.interval),
                 urlIsView: this.urlIsView,
             });
 
@@ -72,15 +68,15 @@ export class LdesHarvester extends Processor<LdesHarvesterArgs> {
                     );
                 }
 
-                if (count >= this.amountPerInterval!) {
+                if (count >= this.amountPerInterval) {
                     this.logger.debug(
-                        `Harvested ${count} elements for ${date.toISOString()} to ${new Date(date.getTime() + this.interval!).toISOString()} with IDs like ${element.id?.value}`,
+                        `Harvested ${count} elements for ${date.toISOString()} to ${new Date(date.getTime() + this.interval).toISOString()} with IDs like ${element.id?.value}`,
                     );
                     break;
                 }
             }
 
-            date = new Date(date.getTime() + this.interval!);
+            date = new Date(date.getTime() + this.interval);
         }
     }
 }

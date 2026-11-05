@@ -43,7 +43,7 @@
         "winston": "^3.19.0"
     },
     "dependencies": {
-        "@rdfc/js-runner": "^3.0.2",
+        "@rdfc/js-runner": "^3.4.2",
         "@treecg/types": "^0.4.6",
         "ldes-client": "^0.2.5",
         "n3": "^2.0.1",

@@ -44,18 +44,21 @@ rdfc:LdesHarvester rdfc:jsImplementationOf rdfc:Processor;
         sh:datatype xsd:integer;
         sh:path rdfc:interval;
         sh:name "interval";
+        sh:defaultValue 3600000;
         sh:minCount 0;
         sh:maxCount 1;
     ], [
         sh:datatype xsd:integer;
         sh:path rdfc:amountPerInterval;
         sh:name "amountPerInterval";
+        sh:defaultValue 100;
         sh:minCount 0;
         sh:maxCount 1;
     ], [
         sh:datatype xsd:boolean;
         sh:path rdfc:urlIsView;
         sh:name "urlIsView";
+        sh:defaultValue false;
         sh:minCount 0;
         sh:maxCount 1;
     ].

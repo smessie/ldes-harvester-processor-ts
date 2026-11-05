@@ -23,7 +23,8 @@ rdfc:LdesHarvester rdfc:jsImplementationOf rdfc:Processor;
         sh:maxCount 1;
         sh:minCount 1;
     ], [
-        sh:datatype xsd:string;
+        sh:nodeKind sh:IRIOrLiteral;
+        sh:codeType xsd:string;
         sh:path rdfc:url;
         sh:name "url";
         sh:maxCount 1;
